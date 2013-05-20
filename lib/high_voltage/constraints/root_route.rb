@@ -11,6 +11,9 @@ module HighVoltage
       private
 
       def self.file_pattern(page_id)
+        if HighVoltage.convert_dash_in_url_to_underscore
+          page_id = page_id.underscore
+        end
         "#{content_path}#{page_id}.html*"
       end
 

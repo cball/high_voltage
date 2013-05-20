@@ -26,8 +26,16 @@ module HighVoltage
     private
 
     def clean_path
+      convert_dashes_to_underscores
+
       path = Pathname.new("/#{clean_id}")
       path.cleanpath.to_s[1..-1]
+    end
+
+    def convert_dashes_to_underscores
+      if HighVoltage.convert_dash_in_url_to_underscore
+        @page_id = @page_id.underscore
+      end
     end
 
     def clean_id

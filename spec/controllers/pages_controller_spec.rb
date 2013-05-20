@@ -69,6 +69,34 @@ describe HighVoltage::PagesController do
     end
   end
 
+  context 'using convert dash in url' do
+    before(:all) do
+      @original_convert_dash = HighVoltage.convert_dash_in_url_to_underscore
+    end
+
+    after(:all) do
+      HighVoltage.convert_dash_in_url_to_underscore = @original_convert_dash
+    end
+
+    describe 'on GET to /also-exists with converting dashes' do
+      it 'should respond with success and render template' do
+        HighVoltage.convert_dash_in_url_to_underscore = true
+        get :show, :id => 'also-exists'
+        response.should be_success
+        response.should render_template 'also_exists'
+      end
+    end
+
+    describe 'on GET to /also-exists without converting dashes' do
+      it 'should respond with a routing error' do
+        HighVoltage.convert_dash_in_url_to_underscore = false
+        expect {
+          get :show, :id => 'also-exists'
+        }.to raise_error(ActionController::RoutingError)
+      end
+    end
+  end
+
   context 'using custom content path' do
     before(:all) do
       @original_content_path = HighVoltage.content_path

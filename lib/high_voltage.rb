@@ -18,6 +18,9 @@ module HighVoltage
   mattr_accessor :routes
   @@routes = true
 
+  mattr_accessor :convert_dash_in_url_to_underscore
+  @@convert_dash_in_url_to_underscore = false
+
   def self.setup
     yield self
   end
